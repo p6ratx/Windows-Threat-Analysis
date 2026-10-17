@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aegis-ti.local/schemas/evidence-event.json",
+  "title": "AegisEvidenceEvent",
+  "type": "object",
+  "required": ["ts", "agent", "host_id", "type", "severity"],
+  "properties": {
+    "id": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" },
+    "agent": { "type": "string", "enum": ["go-net", "rust-host", "gateway", "ml"] },
+    "host_id": { "type": "string" },
+    "type": { "type": "string" },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "low", "medium", "high", "critical"]
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "id"],
+        "properties": {
+          "kind": { "type": "string" },
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "attrs": { "type": "object" }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["src", "dst", "rel"],
+        "properties": {
+          "src": { "type": "string" },
+          "dst": { "type": "string" },
+          "rel": { "type": "string" },
+          "confidence": { "type": "number" }
+        }
+      }
+    },
+    "raw": { "type": "object" },
+    "scan_run_id": { "type": "string" }
+  }
+}

@@ -1,0 +1,10 @@
+# Linux engines only. Attaches collectors to the host process and network namespaces
+# so the scan is of the machine Docker is running on, not the container bridge.
+# Docker Desktop on Windows cannot see the Windows desktop session this way.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.host.yml up --build
+services:
+  gateway:
+    network_mode: host
+    pid: host
+    ports: !override []

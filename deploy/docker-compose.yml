@@ -1,0 +1,37 @@
+# Portable local service. From this directory:
+#   docker compose up --build
+# Host name is taken from the machine running Compose (COMPUTERNAME or HOSTNAME).
+# First boot writes a new API token into the data volume and prints it once.
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: aegis-ti/gateway:latest
+    hostname: ${AEGIS_HOST_ID:-${COMPUTERNAME:-${HOSTNAME:-aegis-host}}}
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8787"
+      AEGIS_DB_PATH: /data/aegis.db
+      AEGIS_GO_NET_BIN: /app/bin/go-net
+      AEGIS_RUST_HOST_BIN: /app/bin/rust-host
+      AEGIS_PYTHON: python3
+      PYTHONPATH: /app/ml:/app/ml/deps
+      AEGIS_DATA_ROOT: /data
+      AEGIS_CORS_ORIGINS: ${AEGIS_CORS_ORIGINS:-}
+      AEGIS_RATE_LIMIT: ${AEGIS_RATE_LIMIT:-180}
+    volumes:
+      - aegis_data:/data
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+
+volumes:
+  aegis_data:

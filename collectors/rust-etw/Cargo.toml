@@ -1,0 +1,19 @@
+[package]
+name = "aegis-rust-etw"
+version = "0.1.0"
+edition = "2021"
+description = "Defensive ETW/kernel tracing collector for Aegis TI"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+
+[target.'cfg(windows)'.dependencies]
+ferrisetw = "1.2"
+windows = { version = "0.58", features = [
+  "Win32_Foundation",
+  "Win32_Security",
+  "Win32_System_Threading",
+  "Win32_System_SystemServices"
+] }

@@ -1,0 +1,6 @@
+{
+  "abuse_ports": [4444, 4445, 1337, 31337, 5555, 6666, 12345, 1234, 9001, 9050, 8081],
+  "bad_ips": [],
+  "bad_cidrs": [],
+  "notes": "Small offline IOC seed list for Aegis TI. Edit locally; optional HTTP enrichment can extend this."
+}
